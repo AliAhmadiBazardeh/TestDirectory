@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+
+    <!-- add to document <head> -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"/>
+
+</head>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @*<form action="/SaveFile" method="post">*@
+        @*<input id="fileInput" type="file" name="fileInput"  />*@
+        <input id="text" type="text" name="text"  />
+        <button id="submit"  type="submit" class="btn btn-info" >send</button>
+    @*</form>*@
+    <div id="res"></div>
+
+    @*<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file">
+            <span asp-validation-for="FileUpload.FormFile"></span>
+        </dd>
+    </dl>
+    <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+</form>*@
+
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@section Scripts
+{
+    <!-- add before </body> -->
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+    <script>
+        @*const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement);
+        FilePond.setOptions({
+            server: '@Url.Action("SaveFile", "Home")'
+        });*@
+        $("#submit").click(function() {
+
+            //fileInput = $("#fileInput").val()
+
+            //var js = {
+            //    "fileInput": fileInput
+            //}
+
+
+            var text = {
+                "text": $("#text").val()
+            }
+
+            //console.log(fileInput)
+            debugger;
+            $.ajax({
+                url: "@Url.Action("SaveFile", "Home")",
+                type: "POST",
+                data: text ,
+                success: function(response) {
+                    if (response.success == true) {
+                        var element = "<p>" + response.message+ "</p>";
+                        //alert(fileInput);
+                        //alert(response.message);
+                        $("#res").append(element);
+                    }
+                }
+            })
+        })
+    </script>
+}
